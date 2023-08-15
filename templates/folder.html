@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SHARE-LY | {{ current_path }}</title>
+    <link rel="stylesheet" href="/static/root.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+    <div class="main">
+
+        <div class="header" style="width: 100%; margin-bottom: 11px; display: flex">
+            <div class="content" style="padding: 11px; display: flex; align-items: center; justify-content: center; background-color:rgb(21, 181, 255) ; width: 100%; justify-content: center;">
+                <h3 style="margin: 0;">Share-LY</h3>
+            </div>
+        </div>
+        
+       
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                
+                    {% for message in messages %}
+                        
+                        <div class="alert {{message_class}} aalert alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                
+            {% endif %}
+        {% endwith %}
+        
+        <div class="upload">
+
+            <div class="accordion accordion-dark" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button  style="width: 100%; background-color: rgb(21, 181, 255); outline: none; color:rgb(49, 49, 49)" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Upload
+                        </button>
+                    </h2>
+                    <div id="collapseOne" style="background-color: rgb(48, 48, 48); color: aliceblue;" class="accordion-collapse collapse show new_file" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    
+                            
+                        <form action="/upload/{{ current_path }}" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file">
+                            <input type="submit" value="Send">
+                        </form>
+                    
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" style="outline: none;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        New Folder
+                        </button>
+                  </h2>
+                    <div id="collapseTwo" style="background-color: rgb(48, 48, 48); color: aliceblue;" class="accordion-collapse collapse new_folder" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                   
+                        <h2>Create a folder :</h2>
+                        <form action="/create_folder" method="post">
+                            <input type="text" name="folder_name" placeholder="Folder name">
+                            <input type="hidden" name="current_path" value="{{ current_path }}">
+                            <input type="submit" value="Create folder">
+                        </form>
+                    </div>
+
+                 
+                </div>
+            </div>
+
+        </div>
+
+        <div class="path" style="margin-bottom: 9px;">
+            <div style="display: flex; align-items: flex-start ;">
+                <img style="width: 23px; margin: 0 11px 0 5px;" src="/static/img/homepage.png" alt="folder">
+            </div>   
+            <div>
+                <h5 style="color: rgb(179, 179, 179); margin: 0;"> {{ current_path }} </h5>
+            </div>            
+            
+        </div>
+
+        <div class="elementss">
+            <div class="tables">
+                <table class="table table-dark table-striped table-hover ">
+                    <!-- <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                      </tr>
+                    </thead> -->
+                    <tbody>
+                        {% for folder in folders %}
+                            <tr>
+                                <th scope="row"><img style="width: 27px;" src="/static/img/folder.png" alt="folder"></th>
+                                <td><a style="color: rgb(21, 181, 255); text-decoration: none;" href="/folder/{{ current_path }}/{{ folder.name}}">{{ folder.name }}</a></td>
+                                <td><!-- Default dropstart button -->
+                                    <div class=" dropstart">
+                                        <button style="color: rgb(21, 181, 255); text-decoration: none; background: none; border: none;" type="button" class="myBtn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <h5>...</h5>
+                                        </button>
+                                        
+                                        <ul class="dropdown-menu">
+                                            <a style="text-decoration: none;" href="/rem/{{ current_path }}/{{ folder.name }}">Delete</a>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                      
+                        {% for file in files %}
+                            <tr>
+                                <th scope="row"><img style="width: 33px; max-height: 37px;" src="{% if  file.file_extension  == '.png'  or file.file_extension  == '.jpg' %}/shared/{{ current_path }}/{{ file.name }}
+                                    {% elif  file.file_extension  == '.pdf' %}/static/img/pdf.png
+                                    {% elif  file.file_extension  == '.doc' %}/static/img/doc.png
+                                    {% elif  file.file_extension  == '.mp3'  %}/static/img/music.png 
+                                    {% elif  file.file_extension  == '.txt' %}/static/img/txt.png
+                                    {% else %}/static/img/word.png{% endif %}" alt="folder">
+                                </th>
+
+                                <td><a style="padding: 5px 55% 5px 0; color: rgb(21, 181, 255); text-decoration: none;" href="/shared/{{ current_path }}/{{ file.name }}">{{ file.name }}</a></td>
+                                <td><!-- Default dropstart button -->
+                                    <div class=" dropstart">
+                                        <button style="color: rgb(21, 181, 255); text-decoration: none; background: none; border: none;" type="button" class="myBtn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <h5>...</h5>
+                                        </button>
+                                        
+                                        <ul class="dropdown-menu">
+                                        <!-- Dropdown menu links -->
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                                    
+                    </tbody>
+                </table>
+            </div>
+
+            
+
+
+
+            
+
+           
+
+        </div>
+        
+        
+        
+        
+
+    </div>
+    
+</body>
+</html>
+

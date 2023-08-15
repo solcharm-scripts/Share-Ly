@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SHARE-LY</title>
+    <link rel="stylesheet" href="/static/root.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="main">
+
+        <div class="header" style="width: 100%; margin-bottom: 11px; display: flex">
+            <div class="content" style="padding: 11px; display: flex; align-items: center; justify-content: center; background-color:rgb(21, 181, 255) ; width: 100%; justify-content: center;">
+                <h3 style="margin: 0;">Share-LY</h3>
+            </div>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                
+                    {% for message in messages %}
+                        
+                        <div class="alert  {{message_class}} aalert alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                
+            {% endif %}
+        {% endwith %}
+        
+        <div class="upload">
+
+            <div class="accordion accordion-dark" id="accordionExample">
+                
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" style="outline: none;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseTwo">
+                        New Folder
+                        </button>
+                  </h2>
+                    <div id="collapseOne" style="background-color: rgb(48, 48, 48); color: aliceblue;" class="accordion-collapse collapse show new_folder" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                   
+                        <h2>Créer un dossier :</h2>
+                        <form action="/create_folder" method="post">
+                            <input type="text" name="folder_name" placeholder="Nom du sous-dossier">
+                            <input type="hidden" name="current_path" value="{{ current_path }}">
+                            <input type="submit" value="Créer un dossier">
+                            
+                        </form>
+                        
+                    </div>
+
+                    
+
+                 
+                </div>
+            </div>
+
+        </div>
+
+        <div class="path" style="margin-bottom: 9px;">
+            <div style="display: flex; align-items: flex-start ;">
+                <img style="width: 23px; margin: 0 11px 0 5px;" src="/static/img/homepage.png" alt="folder">
+            </div>   
+            <div>
+                <h5 style="color: rgb(179, 179, 179); margin: 0;"> {{ current_path }} </h5>
+            </div>            
+            
+        </div>
+
+        <div class="elementss">
+            <div class="tables">
+                <table class="table table-dark table-striped table-hover ">
+                    <!-- <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                      </tr>
+                    </thead> -->
+                    <tbody>
+                        {% for folder in folders %}
+                            <tr>
+                                <th scope="row"><img style="width: 27px;" src="/static/img/folder.png" alt="folder"></th>
+                                <td><a style="color: rgb(21, 181, 255); text-decoration: none;" href="/folder/{{ current_path }}/{{ folder.name}}">{{ folder.name }}</a></td>
+                                <td><!-- Default dropstart button -->
+                                    <div class=" dropstart">
+                                        <button style="color: rgb(21, 181, 255); text-decoration: none; background: none; border: none;" type="button" class="myBtn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <h5>...</h5>
+                                        </button>
+                                        
+                                        <ul class="dropdown-menu">
+                                            <a style="text-decoration: none;" href="/rem/{{ current_path }}/{{ folder.name }}">Delete</a>
+                                             
+                                            
+                                        </ul>
+
+                                        <!-- {{ folder.name }}
+                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>{{ folder.name }}</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        
+                                                        <form action="/rem/{{ current_path }}/{{ folder.name }}" method="post">                                
+                                                            <button   class="btn btn-primary" type="submit" name="confirmation" value="TRUE">Confirmer</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                        {% endfor %}
+                      
+                                    
+                    </tbody>
+                </table>
+            </div>
+
+
+            
+            
+            
+
+            
+
+           
+
+        </div>
+
+       
+        
+
+       
+        
+
+    </div>
+
+
+
+   
+    
+</body>
+</html>
+

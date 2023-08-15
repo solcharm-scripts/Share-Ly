@@ -1,0 +1,76 @@
+html body{
+    background-color: #495057;
+    color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main{
+    background-color: #343a40;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    height: 100vh;
+}
+
+.elementss{
+    overflow-y: scroll;
+    width: 100%;
+}
+
+.path{
+    width: 100%;
+    display: flex;
+    margin: 0 11px;
+}
+.upload{
+    width: 100%;
+    margin-bottom: 53px;
+}
+
+
+
+.new_folder, .new_file{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 17px 0;
+}
+
+.new_folder form, .new_file form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.new_folder form input, .new_file form input{
+    padding: 11px 33px;
+    margin: 11px;
+    border: 1px solid rgb(50, 163, 255);
+}
+
+.new_folder form input[type="submit"], .new_file form input[type="submit"]{
+    background-color: rgb(21, 181, 255);
+}
+
+.elementss .dropstart .dropdown-toggle::before{
+    display: none;
+}
+
+.aalert{
+    display: block;
+    position: fixed;
+    top: 11px;
+    z-index: 1000;
+}
+
+
+@media (min-width: 576px) { 
+    .main{
+        width: 63%;
+    }
+ }
+
